@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Black & Gold Polaroid Guestbook Sign</title>
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #11100e;
+      --deep: #070604;
+      --gold-dark: #7b551b;
+      --gold-mid: #c19a4a;
+      --gold-light: #f2d991;
+      --cream: #f5e8c7;
+      --muted: #b89a62;
+      --shadow: rgba(0, 0, 0, 0.75);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(172, 116, 38, 0.16), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(241, 204, 119, 0.09), transparent 28%),
+        linear-gradient(135deg, #000 0%, #0a0908 45%, #030303 100%);
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: clamp(24px, 4vw, 64px);
+      display: grid;
+      grid-template-columns: 0.92fr 1.65fr;
+      gap: clamp(28px, 4vw, 56px);
+      align-items: center;
+      position: relative;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .page::before {
+      background:
+        radial-gradient(circle at 50% 52%, transparent 0%, transparent 54%, rgba(0,0,0,0.65) 100%);
+      mix-blend-mode: multiply;
+    }
+
+    .page::after {
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 5px 5px;
+    }
+
+    .badge {
+      position: absolute;
+      left: clamp(18px, 2.8vw, 40px);
+      top: clamp(18px, 2.8vw, 40px);
+      z-index: 12;
+      width: 112px;
+      height: 112px;
+      border: 1px solid var(--gold-mid);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--gold-light);
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(3,3,3,0.7);
+      box-shadow: 0 0 30px rgba(193,154,74,0.18);
+    }
+
+    .badge span { display: block; font-size: 20px; margin-top: 4px; }
+
+    .sign {
+      position: relative;
+      aspect-ratio: 5 / 7;
+      min-height: 640px;
+      background:
+        radial-gradient(circle at 82% 10%, rgba(208, 155, 66, 0.20), transparent 17%),
+        radial-gradient(circle at 12% 78%, rgba(208, 155, 66, 0.18), transparent 18%),
+        linear-gradient(160deg, #111 0%, #050505 52%, #0c0905 100%);
+      border: 2px solid rgba(207, 166, 82, 0.80);
+      box-shadow:
+        0 34px 90px var(--shadow),
+        inset 0 0 0 8px rgba(0,0,0,0.34),
+        inset 0 0 0 10px rgba(218, 177, 84, 0.18);
+      padding: clamp(34px, 4vw, 54px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .sign::before,
+    .step-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.45;
+      background:
+        radial-gradient(circle at 80% 14%, rgba(249, 215, 136, 0.9) 0 1px, transparent 2px),
+        radial-gradient(circle at 84% 18%, rgba(193, 143, 49, 0.75) 0 1px, transparent 2px),
+        radial-gradient(circle at 18% 82%, rgba(249, 215, 136, 0.65) 0 1px, transparent 2px),
+        radial-gradient(circle at 14% 76%, rgba(193, 143, 49, 0.7) 0 1px, transparent 2px);
+      background-size: 26px 26px, 19px 19px, 23px 23px, 17px 17px;
+      filter: blur(0.2px);
+      pointer-events: none;
+    }
+
+    .gold-dust {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(245, 215, 142, 0.78), rgba(178, 116, 31, 0.22) 34%, transparent 66%);
+      filter: blur(18px);
+      opacity: 0.42;
+      animation: dustFloat 8s ease-in-out infinite;
+    }
+
+    .gold-dust.top { right: -76px; top: -56px; }
+    .gold-dust.bottom { left: -86px; bottom: -78px; animation-delay: 2s; }
+
+    .mini-camera {
+      width: 44px;
+      height: 34px;
+      border: 2px solid var(--gold-mid);
+      border-radius: 5px;
+      position: relative;
+      margin-top: 58px;
+      margin-bottom: 38px;
+      color: var(--gold-mid);
+    }
+
+    .mini-camera::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: -8px;
+      width: 20px;
+      height: 8px;
+      border: 2px solid currentColor;
+      border-bottom: 0;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .mini-camera::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      transform: translate(-50%, -50%);
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 3px #070604;
+    }
+
+    .rule {
+      position: absolute;
+      height: 1px;
+      width: 78px;
+      background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+      top: 126px;
+    }
+
+    .rule.left { left: 32%; transform: translateX(-100%); }
+    .rule.right { right: 32%; transform: translateX(100%); }
+
+    .foil {
+      background: linear-gradient(105deg, #7a5512 0%, #f9e7a4 18%, #bd8730 34%, #fff2bd 48%, #a97521 64%, #e7c56e 82%, #7a5512 100%);
+      background-size: 240% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: foilShine 6s linear infinite;
+      text-shadow: 0 0 22px rgba(205, 154, 61, 0.18);
+    }
+
+    .title-main {
+      font-size: clamp(48px, 6vw, 76px);
+      letter-spacing: 0.16em;
+      line-height: 1;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .script {
+      font-family: "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive;
+      font-size: clamp(64px, 7.5vw, 112px);
+      line-height: 0.8;
+      font-weight: 400;
+      margin: 0 0 34px;
+    }
+
+    .tiny-rule {
+      width: 76px;
+      height: 1px;
+      background: var(--gold-mid);
+      margin: 0 auto 48px;
+    }
+
+    .tagline {
+      font-size: clamp(18px, 1.6vw, 24px);
+      line-height: 1.7;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin: auto 0 28px;
+    }
+
+    .heart {
+      font-size: 24px;
+      color: var(--gold-mid);
+      margin-bottom: 34px;
+      animation: heartPulse 2.8s ease-in-out infinite;
+    }
+
+    .names {
+      font-size: clamp(18px, 1.6vw, 24px);
+      letter-spacing: 0.22em;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .date {
+      font-size: clamp(16px, 1.4vw, 20px);
+      letter-spacing: 0.28em;
+      color: var(--gold-light);
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 42px;
+    }
+
+    .hero-copy {
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 14px;
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-size: clamp(12px, 1.5vw, 17px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 34px;
+      color: var(--gold-mid);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      width: min(180px, 22vw);
+      background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(170px, 1fr));
+      gap: clamp(18px, 2vw, 30px);
+      align-items: stretch;
+    }
+
+    .step-card {
+      position: relative;
+      min-height: 430px;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(208, 155, 66, 0.16), transparent 20%),
+        radial-gradient(circle at 12% 82%, rgba(208, 155, 66, 0.13), transparent 18%),
+        linear-gradient(160deg, #111 0%, #050505 58%, #0c0905 100%);
+      border: 1px solid rgba(207, 166, 82, 0.78);
+      box-shadow:
+        0 22px 70px rgba(0,0,0,0.62),
+        inset 0 0 0 7px rgba(0,0,0,0.36),
+        inset 0 0 0 9px rgba(218, 177, 84, 0.14);
+      padding: 44px 26px 38px;
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-card .mini-camera { margin-top: 24px; margin-bottom: 38px; transform: scale(0.82); }
+
+    .number {
+      font-size: 58px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .step-title {
+      font-family: "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive;
+      font-size: clamp(38px, 4vw, 58px);
+      line-height: 0.9;
+      margin-bottom: 26px;
+      font-weight: 400;
+    }
+
+    .icon {
+      position: relative;
+      width: 118px;
+      height: 98px;
+      margin: 0 auto 28px;
+      color: var(--gold-mid);
+    }
+
+    .icon.camera-big {
+      border: 3px solid currentColor;
+      border-radius: 12px;
+      height: 86px;
+      margin-top: 10px;
+    }
+
+    .icon.camera-big::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: -14px;
+      width: 40px;
+      height: 14px;
+      border: 3px solid currentColor;
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .icon.camera-big::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      transform: translate(-50%, -50%);
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 9px #070604;
+    }
+
+    .icon.polaroid {
+      width: 96px;
+      height: 96px;
+      border: 3px solid currentColor;
+      transform: rotate(8deg);
+    }
+
+    .icon.polaroid::after {
+      content: "";
+      position: absolute;
+      inset: 18px 16px 30px;
+      border: 2px solid currentColor;
+    }
+
+    .icon.book {
+      width: 124px;
+      height: 90px;
+      border-bottom: 3px solid currentColor;
+    }
+
+    .icon.book::before,
+    .icon.book::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      width: 55px;
+      height: 70px;
+      border: 3px solid currentColor;
+      border-bottom: 0;
+    }
+
+    .icon.book::before { left: 7px; transform: skewY(4deg); }
+    .icon.book::after { right: 7px; transform: skewY(-4deg); }
+
+    .small-copy {
+      margin-top: auto;
+      font-size: 17px;
+      line-height: 1.45;
+      color: var(--gold-light);
+    }
+
+    .card-heart {
+      color: var(--gold-mid);
+      font-size: 20px;
+      margin-top: 22px;
+      animation: heartPulse 3s ease-in-out infinite;
+    }
+
+    .glow {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      width: 54px;
+      height: 54px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff8d6 0%, #f0c66b 24%, rgba(192, 128, 36, 0.38) 48%, transparent 72%);
+      box-shadow: 0 0 34px rgba(245, 195, 87, 0.9);
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    .arrows {
+      position: absolute;
+      right: -27px;
+      top: 50%;
+      color: var(--gold-mid);
+      font-size: 48px;
+      z-index: 4;
+      transform: translateY(-50%);
+      text-shadow: 0 0 20px rgba(193,154,74,0.4);
+    }
+
+    .loop-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: var(--gold-light);
+      font-family: Arial, sans-serif;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .loop-symbol {
+      font-size: 30px;
+      color: var(--gold-mid);
+      animation: rotate 4s linear infinite;
+    }
+
+    .shutter {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255,244,191,0.96), rgba(240,198,104,0.20) 40%, transparent 72%);
+      opacity: 0;
+      animation: shutterFlash 4.8s infinite;
+    }
+
+    @keyframes foilShine {
+      to { background-position: 240% center; }
+    }
+
+    @keyframes dustFloat {
+      0%, 100% { transform: translate(0,0) scale(1); opacity: 0.35; }
+      50% { transform: translate(-18px, 12px) scale(1.08); opacity: 0.55; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { transform: translateX(-50%) scale(0.86); opacity: 0.72; }
+      50% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); opacity: 0.75; }
+      50% { transform: scale(1.18); opacity: 1; }
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shutterFlash {
+      0%, 80%, 100% { opacity: 0; }
+      82% { opacity: 0.55; }
+      84% { opacity: 0; }
+      88% { opacity: 0.26; }
+      90% { opacity: 0; }
+    }
+
+    @media (max-width: 980px) {
+      .page { grid-template-columns: 1fr; }
+      .sign { min-height: auto; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .arrows { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shutter"></div>
+  <div class="badge">Edit<br>Names<br>Here<span>♥</span></div>
+
+  <main class="page">
+    <section class="sign" aria-label="Polaroid Guestbook cover sign">
+      <div class="gold-dust top"></div>
+      <div class="gold-dust bottom"></div>
+      <div class="rule left"></div>
+      <div class="rule right"></div>
+      <div class="mini-camera"></div>
+
+      <h2 class="title-main foil">Polaroid</h2>
+      <h1 class="script foil">Guestbook</h1>
+      <div class="tiny-rule"></div>
+
+      <p class="tagline">Help us capture<br>the memories</p>
+      <div class="heart">♥</div>
+      <div class="names">Olivia + Noah</div>
+      <div class="date">06.14.2025</div>
+    </section>
+
+    <section class="right-panel" aria-label="Animated guestbook instruction cards">
+      <header class="hero-copy">
+        <h1 class="foil">Animated Digital Sign</h1>
+        <p>Polaroid shutter effect • loops automatically</p>
+        <div class="divider">♥</div>
+      </header>
+
+      <div class="steps-grid">
+        <article class="step-card">
+          <div class="gold-dust top"></div>
+          <div class="mini-camera"></div>
+          <div class="number foil">01</div>
+          <h2 class="step-title foil">Snap it</h2>
+          <div class="icon camera-big"></div>
+          <p class="small-copy">Grab the camera<br>and take a photo</p>
+          <div class="card-heart">♥</div>
+          <div class="glow"></div>
+          <div class="arrows">›</div>
+        </article>
+
+        <article class="step-card">
+          <div class="gold-dust top"></div>
+          <div class="mini-camera"></div>
+          <div class="number foil">02</div>
+          <h2 class="step-title foil">Shake it</h2>
+          <div class="icon polaroid"></div>
+          <p class="small-copy">Gently shake<br>the photo</p>
+          <div class="card-heart">♥</div>
+          <div class="glow"></div>
+          <div class="arrows">›</div>
+        </article>
+
+        <article class="step-card">
+          <div class="gold-dust top"></div>
+          <div class="mini-camera"></div>
+          <div class="number foil">03</div>
+          <h2 class="step-title foil">Stick it</h2>
+          <div class="icon book"></div>
+          <p class="small-copy">Place it in the book<br>and leave a message</p>
+          <div class="card-heart">♥</div>
+          <div class="glow"></div>
+        </article>
+      </div>
+
+      <footer class="loop-note">
+        <span class="loop-symbol">↻</span>
+        <span>Loops automatically<br>shutter flash between each step</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

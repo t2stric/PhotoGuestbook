@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal Luxury Polaroid Guestbook Sign</title>
+  <style>
+    :root {
+      --background: #f7f2ea;
+      --paper: #fffdf8;
+      --ink: #171514;
+      --soft-ink: #6f655c;
+      --gold: #c8a96a;
+      --gold-soft: rgba(200, 169, 106, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #fffaf2 0%, var(--background) 45%, #eee5d8 100%);
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    .sign-wrap {
+      position: relative;
+      width: min(86vw, 470px);
+      aspect-ratio: 5 / 7;
+      padding: 18px;
+      border: 1px solid var(--gold-soft);
+      background: rgba(255, 253, 248, 0.55);
+      box-shadow: 0 28px 70px rgba(80, 58, 30, 0.18);
+    }
+
+    .sign {
+      position: relative;
+      height: 100%;
+      background: var(--paper);
+      border: 1px solid rgba(23, 21, 20, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 38px 42px;
+      overflow: hidden;
+    }
+
+    .gold-line {
+      width: 58px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: clamp(44px, 10vw, 68px);
+      line-height: 0.9;
+      font-family: "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .names {
+      font-size: 17px;
+      letter-spacing: 0.08em;
+      color: var(--soft-ink);
+      margin-bottom: 34px;
+    }
+
+    .camera {
+      position: relative;
+      width: 150px;
+      height: 118px;
+      margin-bottom: 38px;
+      animation: cameraFloat 4s ease-in-out infinite;
+    }
+
+    .camera-body {
+      position: absolute;
+      inset: 24px 8px 0;
+      border: 3px solid var(--ink);
+      border-radius: 22px;
+    }
+
+    .camera-top {
+      position: absolute;
+      left: 27px;
+      top: 10px;
+      width: 38px;
+      height: 26px;
+      border: 3px solid var(--ink);
+      border-bottom: 0;
+      border-radius: 10px
